@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block navbar %}
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<a class="navbar-brand" href="{{ url_for('main.index') }}"><b>To-Do</b></a>
+			<ul class="nav navbar-nav">
+				<li><a href="{{ url_for('main.add_category') }}">ADD CATEGORY</a></li>
+				<li class="active"><a href="{{ url_for('main.add_task') }}">ADD TASK</a></li>
+				<li><a href="{{ url_for('main.view_tasks') }}">VIEW TASKS</a></li>
+			</ul>
+		</div>
+	</nav>
+{% endblock %}
+
+
+{% block title %}Add Task{% endblock %}
+
+{% block page_content %}
+	<div class="row">
+		<div class="col-lg-4">
+			<form method="POST" action="{{ url_for('main.add_task') }}">
+				{{ wtf.quick_form(form, button_map={"submit":"primary"}) }}
+				<!-- {{ form.name.label }} {{ form.name(class="form-control") }}
+				<br>
+				{{ form.category.label }}
+				<select class="form-control">  
+				{% for cat in category_list%}
+					<option>{{cat}}</option>
+				{% endfor %}
+				</select>
+				<br>
+				{{ form.priority.label }}{{ form.priority(class="form-control") }}
+				<br>
+				{{ form.submit(class="btn btn-primary") }} -->
+				{% if name %}
+					<p>Created task {{name}}</p>
+				{% endif %}
+			</form>
+		</div>
+	</div>
+{% endblock %}
