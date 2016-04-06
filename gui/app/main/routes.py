@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request
 from . import main
+
 # from forms import CategoryForm,TaskForm
 # from .. import Category,Task
 import os
@@ -16,11 +17,23 @@ def getRandomImages():
 
 @main.route("/",methods=['GET','POST'])
 def index():
-	question = "Select the type of diversion present in the image."
-	choices_list = ["Option1;Option2;Option3;Option4" for i in range(9)]
+	# q = train_test.test('other')
+	#print os.popen("pwd")
+	img_annotations = eval(open('app/main/annotations.txt').read())
+	q = os.popen("python app/main/code/RNN/enc_dec/train_test.py multiple other clothing").read()
+	print q
+	#choices_list = ["Option1;Option2;Option3;Option4" for i in range(9)]
+	choices_list = []
 	answer_choices=["Option1","Option2","Option3","Option4"]
 	image_list = getRandomImages()
-	question_list = ["question"+str(i) for i in range(1,10)]
+	question_list = []
+	ans_list = []
+	for img in image_list:
+		question_list.append(os.popen("python app/main/code/RNN/enc_dec/train_test.py single " + img_annotations[img.split(".")[0]][0][0]).read())
+		ans_list.append(img_annotations[img.split(".")[0]][0][1])
+		choices_list.append(img_annotations[img.split(".")[0]][0][1])
+		
+	print question_list
 	if request.method=='POST' and request.form['submit']:
 		for ch in answer_choices:
 			if ch in dict(request.form).keys():

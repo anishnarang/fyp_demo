@@ -1,0 +1,14 @@
+Class :  bodyparts
+What is the type of scene present in the image ?
+Class :  animals
+What is the type of scene present in the image ?
+Class :  instruments
+Select the type of scene present in the image ?
+Class :  vehicles
+What is the type of scene present in the image ?
+Class :  scene
+Select the type of scene present in the image ?
+Class :  clothing
+What is the type of clothing present in the image ?
+2
+Accuracy :  33.3333333333

@@ -1,0 +1,109 @@
+Class :  ('bodyparts', 'animals')
+len of e res =  1
+1
+How many animals are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('bodyparts', 'people')
+len of e res =  1
+1
+How many people are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('bodyparts', 'vehicles')
+len of e res =  1
+1
+Which type of vehicle(s) are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('bodyparts', 'scene')
+len of e res =  1
+1
+Choose the option that best describes the scene  and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('bodyparts', 'other')
+len of e res =  1
+1
+Which of the following is present in the image and What is the person in the image wearing ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('bodyparts', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('animals', 'people')
+len of e res =  1
+1
+How many people are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('animals', 'vehicles')
+len of e res =  1
+1
+Which type of vehicle(s) are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('animals', 'scene')
+len of e res =  1
+1
+Choose the option that best describes the scene  and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('animals', 'other')
+len of e res =  1
+1
+Which of the following is present in the image and Choose the option that best describes the scene  ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('animals', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('people', 'vehicles')
+len of e res =  1
+1
+Which type of vehicle(s) are present in the image and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('people', 'scene')
+len of e res =  1
+1
+Choose the option that best describes the scene  and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('people', 'other')
+len of e res =  1
+1
+Which of the following is present in the image and What is the person in the image wearing ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('people', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('vehicles', 'scene')
+len of e res =  1
+1
+Choose the option that best describes the scene  and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('vehicles', 'other')
+len of e res =  1
+1
+Which of the following is present in the image and What is the person in the image wearing ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('vehicles', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('scene', 'other')
+len of e res =  1
+1
+Which of the following is present in the image and Choose the option that best describes the scene  ? 
+----------------------------------------------------------------------------------------------------
+correct
+Class :  ('scene', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+Class :  ('other', 'clothing')
+len of e res =  1
+1
+What is the person in the image wearing and Which of the following is present in the image ? 
+----------------------------------------------------------------------------------------------------
+correct
+2
+Accuracy :  9.52380952381

@@ -1,0 +1,33 @@
+Class :  bodyparts
+len of e res =  1
+1
+What is the type of bodyparts present in the image ? 
+Class :  animals
+len of e res =  1
+1
+How many animals are present in the image ? 
+Class :  people
+len of e res =  1
+1
+How many people are present in the image ? 
+Class :  instruments
+len of e res =  1
+1
+Select the type of instruments present in the image ? 
+Class :  vehicles
+len of e res =  1
+1
+Which type of vehicle(s) are present in the image ? 
+Class :  scene
+len of e res =  1
+1
+What is the type of scene present in the image ? 
+Class :  other
+len of e res =  1
+1
+Which of the following is present in the image ? 
+Class :  clothing
+len of e res =  1
+1
+What is the person in the image wearing ? 
+Accuracy :  75.0
