@@ -6,9 +6,7 @@
 		{
 			cursor: pointer;
 		}
-        .selected{
-            box-shadow:0px 12px 22px 1px #333;
-        }
+
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script type="text/javascript">
@@ -29,7 +27,6 @@
         function loadImg(e,q_list,ch_list)
         {
             id = parseInt(e.target.id);
-            document.getElementById(id).className = "selected";
 
             document.getElementById("header").innerHTML = "question";
 
@@ -43,17 +40,21 @@
             choices =  ch_list[id-1].split(";");
             label = document.getElementById("op");
             
+            ul = document.createElement("ul");
+            ul.style.listStyleType = "none";
             for(i=0;i<choices.length;i++)
             {
+                li = document.createElement("li");
                 inp = document.createElement("input");
                 inp.type="checkbox";
                 inp.name=choices[i];
                 inp.value=choices[i];
-                span = document.createElement("span");
-                span.innerHTML += "<br><br>"+choices[i]+"&nbsp;&nbsp;&nbsp;&nbsp;";
-                span.appendChild(inp);
-                label.appendChild(span);
+
+                li.appendChild(inp);
+                li.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;"+choices[i];
+                ul.appendChild(li);
             }
+            label.appendChild(ul)
 
         }
         function loadAllImages(l)
@@ -96,7 +97,7 @@
 		
 
         <form method="POST" action="{{ url_for('main.index') }}">
-        <div style="top:17%;left:60%;position:fixed;width:400px;">
+        <div style="top:17%;left:55%;position:fixed;width:400px;">
          {% if alert_message %}
                 {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
                     {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
@@ -118,8 +119,10 @@
 
 		<input name="submit" id="submit" type="submit" class="btn btn-primary" value="SUBMIT" style="position:absolute;top:320px;display:none;" onclick="">
 
-		<input type="button" class="btn btn-primary" value="LOAD" style="position:absolute;top:410px;left:380px;" onclick="refresh()">
-    
+		<!-- <input type="button" class="btn btn-primary" value="LOAD" style="position:absolute;top:410px;left:440px;" onclick="refresh()"> -->
+        <a name="recaptcha" href="" onclick="refresh()" class="btn btn-primary" style="position:absolute;top:410px;left:440px;">
+          <span class="glyphicon glyphicon-refresh"></span> ReCaptcha
+        </a>
 		</div>
 
         </form>

@@ -98,8 +98,8 @@ def train_gru(inputs,targets):
 		do.append(np.array(temp))
 	
 	#do = [[vocab_to_ix[k] for k in i.split(' ')[1:]] for i in targets]
-	# enc_dec.train(ei,eo,di,do,max_iter=10)
-	# enc_dec.save('trained_multiple_10ep_30k.p')
+	enc_dec.train(ei,eo,di,do,max_iter=10)
+	enc_dec.save('trained_multiple_10ep_30k.p')
 	
 	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
 	classes = open('app/main/code/RNN/create_dataset/classes_obj_pair.txt').read().split(';')
@@ -225,8 +225,8 @@ if __name__ == "__main__":
 	# model_cls = pickle.load(open('app/main/data/classes_obj.pickle'))
 	if(sys.argv[1] == "single"):
 		test(sys.argv[2])
-	else:
-		test_gru((sys.argv[2],sys.argv[3]))
+	# else:
+	# 	test_gru((sys.argv[2],sys.argv[3]))
 		#train_gru(inputs,targets)
 	#test_gru([('other','clothing')])
 	#train_gru(inputs,targets)
