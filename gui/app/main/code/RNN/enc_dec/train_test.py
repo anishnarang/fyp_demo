@@ -119,7 +119,7 @@ def train_gru(inputs,targets):
 			inp = np.zeros((len(ix_to_class_obj.keys()),))
 			inp[class_obj_to_ix[j]] = 1
 			input_cls.append(inp)
-		val = enc_dec.test_predict(np.array([[input_cls]]), ix_to_first_word, vocab_to_ix, ix_to_vocab)
+		val = enc_dec.test_predict(np.array([input_cls]), ix_to_first_word, vocab_to_ix, ix_to_vocab)
 		# pdb.set_trace()
 		ques = ix_to_first_word[val[0][0][1].tolist().index(max(val[0][0][1]))] + ' '
 		for l in val[1][0][1:]:
