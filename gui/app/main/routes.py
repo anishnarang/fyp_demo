@@ -7,8 +7,10 @@ from PIL import Image
 import datetime
 from forms import *
 import time
+from app.main.code.RNN.enc_dec import train_test
 
 count = 0
+questions_dict = eval(open('app/main/test_questions.txt').read())
 
 def make_composite(img1,img2,img3,img4):
 	global count
@@ -53,6 +55,7 @@ def index():
 	# q = train_test.test('other')
 	#print os.popen("pwd")
 	img_annotations = eval(open('app/main/annotations.txt').read())
+	global questions_dict
 	# q = os.popen("python app/main/code/RNN/enc_dec/train_test.py multiple other clothing").read()
 	# print q
 	#choices_list = ["Option1;Option2;Option3;Option4" for i in range(9)]
@@ -62,7 +65,8 @@ def index():
 	question_list = []
 	ans_list = []
 	for img in image_list:
-		question_list.append(os.popen("python app/main/code/RNN/enc_dec/train_test.py single " + img_annotations[img.split(".")[0]][0][0]).read())
+		# question_list.append(os.popen("python app/main/code/RNN/enc_dec/train_test.py single " + img_annotations[img.split(".")[0]][0][0]).read())
+		question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
 		ans_list.append(img_annotations[img.split(".")[0]][0][1])
 		choices_list.append(img_annotations[img.split(".")[0]][0][1])
 		
