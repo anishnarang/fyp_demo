@@ -8,7 +8,10 @@ import datetime
 from forms import *
 import time
 
+count = 0
+
 def make_composite(img1,img2,img3,img4):
+	global count
 	pic1 = Image.open("app/static/"+str(img1))
 	pic2 = Image.open("app/static/"+str(img2))
 	pic3 = Image.open("app/static/"+str(img3))
@@ -32,7 +35,10 @@ def make_composite(img1,img2,img3,img4):
 	op_image.paste(pic2, (w1,0))
 	op_image.paste(pic3, (0,h3))
 	op_image.paste(pic4, (w1,h3))	
-	op_image.save("app/static/multiple_composite.jpg")
+
+	count += 1
+	op_image.save("app/static/multiple"+str(count)+".jpg")
+	return "multiple"+str(count)+".jpg"
 
 def getRandomImages(num):
 	images = []
@@ -76,9 +82,8 @@ def multiple():
 
 	answer_choices=["Option1","Option2","Option3","Option4"]
 	image_list = getRandomImages(4)
-	question = "Sample Question"
-	make_composite(*image_list)
-
+	question = "This is a longer Sample Question to see if it fits."
+	name = make_composite(*image_list)
 
 	if form.submit.data:
 		flag = False
@@ -87,11 +92,9 @@ def multiple():
 				# Correct answer
 				flag = True
 		if flag:
-			print "success"
-			return render_template("multiple.html",form=form,success=True,alert_message="Captcha Question Answered Correctly!",alert_type='info')
+			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,success=True,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
 		else:
 			# Wrong answer
-			return render_template("multiple.html",form=form,wrong=True,alert_message="That is the wrong answer!",alert_type='danger')
+			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
 	
-
-	return render_template("multiple.html",question=question,composite=True,answer_choices=answer_choices,recaptcha=recaptcha,form=form)
+	return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
