@@ -48,7 +48,7 @@ def getRandomImages(num):
 		images.append(l[r])
 	return images
 
-@main.route("/",methods=['GET','POST'])
+@main.route("/single",methods=['GET','POST'])
 def index():
 	# q = train_test.test('other')
 	#print os.popen("pwd")
@@ -70,9 +70,9 @@ def index():
 		for ch in dict(request.form).keys():
 			if ch in choices_list:
 				print "Selected Option:",ch
-				return render_template("index.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="That is the correct answer!",alert_type='info')
+				return render_template("index.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
 		else:
-			return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="That is the wrong answer!",alert_type='danger')
+			return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
 	return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
 
 @main.route("/multiple",methods=['GET','POST'])
