@@ -98,7 +98,7 @@
 		
 
         <form method="POST" action="{{ url_for('main.index') }}">
-        <div style="top:17%;left:52%;position:fixed;width:410px;">
+        <div style="top:17%;left:55%;position:fixed;width:410px;">
          {% if alert_message %}
                 {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
                     {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
