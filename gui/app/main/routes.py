@@ -8,9 +8,24 @@ import datetime
 from forms import *
 import time
 from app.main.code.RNN.enc_dec import train_test
+from random import shuffle
 
 count = 0
 questions_dict = eval(open('app/main/test_questions.txt').read())
+class_obj = eval(open('app/main/class_obj.txt').read())
+img_annotations = eval(open('app/main/annotations.txt').read())
+
+def create_single_options(cls,obj_list):
+	#obj_list is a list of 2 tuple annotations
+	obj = [o[1].title() for o in obj_list]
+	all_obj = class_obj[cls]
+	shuffle(all_obj)
+	ops = list(set(all_obj) - set(obj_list))
+	shuffle(ops)
+	res = ops[:3]
+
+	return res
+
 
 def make_composite(img1,img2,img3,img4):
 	global count
@@ -52,23 +67,37 @@ def getRandomImages(num):
 
 @main.route("/single",methods=['GET','POST'])
 def index():
-	# q = train_test.test('other')
-	#print os.popen("pwd")
-	img_annotations = eval(open('app/main/annotations.txt').read())
-	global questions_dict
-	# q = os.popen("python app/main/code/RNN/enc_dec/train_test.py multiple other clothing").read()
-	# print q
-	#choices_list = ["Option1;Option2;Option3;Option4" for i in range(9)]
+	global questions_dict,img_annotations
+
 	choices_list = []
-	answer_choices=["Option1","Option2","Option3","Option4"]
 	image_list = getRandomImages(9)
 	question_list = []
 	ans_list = []
 	for img in image_list:
-		# question_list.append(os.popen("python app/main/code/RNN/enc_dec/train_test.py single " + img_annotations[img.split(".")[0]][0][0]).read())
 		question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
-		ans_list.append(img_annotations[img.split(".")[0]][0][1])
-		choices_list.append(img_annotations[img.split(".")[0]][0][1])
+		ans_list.append(img_annotations[img.split(".")[0]][0][1].title())
+		choices = [img_annotations[img.split(".")[0]][0][1].title()]
+		choices.extend(create_single_options(img_annotations[img.split(".")[0]][0][0],img_annotations[img.split(".")[0]]))
+		
+		to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
+		new_choices = []
+		for ch in choices:
+			for word in to_be_removed:
+				if word in ch:
+					ch = ch.replace(word,"")
+			new_choices.append(ch)
+		choices = new_choices
+		shuffle(choices)
+		choices_list.append(";".join(choices))
+
+		new_ans_list = []
+		for ans in ans_list:
+			for word in to_be_removed:
+				if word in ans:
+					ans = ans.replace(word,"")
+			new_ans_list.append(ans)
+		ans_list = new_ans_list
+	print "Answers:",str(ans_list)
 		
 	if request.method=='POST' and request.form['submit']:
 		for ch in dict(request.form).keys():

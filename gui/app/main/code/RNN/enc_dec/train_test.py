@@ -225,9 +225,10 @@ if __name__ == "__main__":
 	# model_cls = pickle.load(open('../../../data/classes_obj.pickle'))
 	if(sys.argv[1] == "single"):
 		test(sys.argv[2])
-	# else:
-	# 	test_gru((sys.argv[2],sys.argv[3]))
-		#train_gru(inputs,targets)
+	else:
+		train_gru(inputs,targets)
+		test_gru((sys.argv[2],sys.argv[3]))
+		
 	#test_gru([('other','clothing')])
 	#train_gru(inputs,targets)
 	
