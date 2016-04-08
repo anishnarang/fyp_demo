@@ -14,6 +14,7 @@ count = 0
 questions_dict = eval(open('app/main/test_questions.txt').read())
 class_obj = eval(open('app/main/class_obj.txt').read())
 img_annotations = eval(open('app/main/annotations.txt').read())
+ALL_TUPLES = eval(open('app/main/code/flickr30k/all_tuples.txt').read())
 
 def create_single_options(cls,obj_list):
 	#obj_list is a list of 2 tuple annotations
@@ -26,6 +27,19 @@ def create_single_options(cls,obj_list):
 
 	return res
 
+def create_multiple_options(all_obj):
+	# ALL_TUPLES is a list of all possible tuples in the dataset
+	# ALL_OBJ is a list of all possible objects in the dataset
+	ALL_OBJ = list(zip(ALL_TUPLES))
+
+	# Set difference between all possible objects and objects of the classes of the selected images
+	ops = list(set(ALL_OBJ) - set(all_obj))
+
+	# Shuffle them and return 4
+	shuffle(ops)
+	res = [r[0][1].title() for r in random.sample(ops,4)]
+
+	return res
 
 def make_composite(img1,img2,img3,img4):
 	global count
@@ -115,20 +129,45 @@ def multiple():
 
 	answer_choices = []
 	image_list = getRandomImages(4)
+
+
 	selected_images = random.sample(image_list,2)
 	img1_tuples = img_annotations[selected_images[0].split(".")[0]]
 	img2_tuples = img_annotations[selected_images[1].split(".")[0]]
 
 	img1_chosen = random.sample(img1_tuples,1)
 	img2_chosen = random.sample(img2_tuples,1)
-	print img1_chosen,img2_chosen
+
 	
 	cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
 	question = os.popen(cmd).read().split("\n")[2]
 	print question
 	name = make_composite(*image_list)
+
+	## Forming the options
+
+	# Getting all (class,obj) pairs for all 4 images
+	all_tuples = []
+	all_tuples.extend(img_annotations[image_list[0].split(".")[0]])
+	all_tuples.extend(img_annotations[image_list[1].split(".")[0]])
+	all_tuples.extend(img_annotations[image_list[2].split(".")[0]])
+	all_tuples.extend(img_annotations[image_list[3].split(".")[0]])
+	all_tuples = list(set(all_tuples))
+
+	# Select the tuple from all_tuples if the class matches the classes of the 2 selected images
+	all_obj = [t for t in all_tuples if t[0] == img1_chosen[0][0] or t[0] == img2_chosen[0][0]]
+	
+	# Pass this to the function
+	answer_choices.extend(create_multiple_options(all_obj))
+
+	# Append the correct answer to the answer_choices
 	answer_choices.append(img1_chosen[0][1].title())
 	answer_choices.append(img2_chosen[0][1].title())
+	
+	correct_answers = [img1_chosen[0][1].title(),img2_chosen[0][1].title()]
+
+	shuffle(answer_choices)
+	print "Correct Answers:",correct_answers
 
 	if form.submit.data:
 		flag = False
