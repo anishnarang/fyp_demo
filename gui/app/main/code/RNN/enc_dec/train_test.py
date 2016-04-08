@@ -48,7 +48,7 @@ def test(class_test,model_file='single.p'):
 	return ques
 
 
-def train_gru(inputs,targets):
+def train_gru():
 	inputs = pickle.load(open('app/main/data/enc_dec_inputs_pair.pickle'))
 	targets = pickle.load(open('app/main/data/enc_dec_targets_pair.pickle'))
 	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word_pair.pickle'))
@@ -169,7 +169,7 @@ def train_gru(inputs,targets):
 	'''
 
 def test_gru(class_pair):
-	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_1k.p'))
+	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
 	inputs = pickle.load(open('app/main/data/enc_dec_inputs_pair.pickle'))
 	targets = pickle.load(open('app/main/data/enc_dec_targets_pair.pickle'))
 	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word_pair.pickle'))
@@ -213,8 +213,10 @@ if __name__ == "__main__":
 	#     print "[2] python train_test.py test model_file"
 	#     #exit()
 	
-	inputs = pickle.load(open('app/main/data/enc_dec_inputs.pickle'))
-	targets = pickle.load(open('app/main/data/enc_dec_targets.pickle'))
+	# inputs = pickle.load(open('app/main/data/enc_dec_inputs.pickle'))
+	# targets = pickle.load(open('app/main/data/enc_dec_targets.pickle'))
+	# train_gru()
+	# exit()
 	# ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word.pickle'))
 	# first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix.pickle'))
 	# vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix.pickle'))

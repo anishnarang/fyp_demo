@@ -37,7 +37,7 @@ def create_multiple_options(all_obj):
 
 	# Shuffle them and return 4
 	shuffle(ops)
-	res = [r[0][1].title() for r in random.sample(ops,4)]
+	res = [r[0][1].title() for r in random.sample(ops,2)]
 
 	return res
 
@@ -138,7 +138,7 @@ def multiple():
 	img1_chosen = random.sample(img1_tuples,1)
 	img2_chosen = random.sample(img2_tuples,1)
 
-	
+	print "Classes:",img1_chosen[0][0]+ " " + img2_chosen[0][0]
 	cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
 	question = os.popen(cmd).read().split("\n")[2]
 	print question
