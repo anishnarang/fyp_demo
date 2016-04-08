@@ -9,25 +9,25 @@ import numpy as np
 def train(model_file):
 	enc_dec = encoder_decoder(len(first_word_to_ix.keys()), len(ix_to_class_obj.keys()), 100, len(vocab_to_ix.keys()), 30, 100)
 	enc_dec.train(inputs, targets, 2, vocab_to_ix, first_word_to_ix, model_q)
-	enc_dec.save('../../../data/' + model_file)
+	enc_dec.save('app/main/data/' + model_file)
 
 def test(class_test,model_file='single.p'):
-	inputs = pickle.load(open('../../../data/enc_dec_inputs.pickle'))
-	targets = pickle.load(open('../../../data/enc_dec_targets.pickle'))
-	ix_to_first_word = pickle.load(open('../../../data/ix_to_first_word.pickle'))
-	first_word_to_ix = pickle.load(open('../../../data/first_word_to_ix.pickle'))
-	vocab_to_ix = pickle.load(open('../../../data/vocab_to_ix.pickle'))
-	ix_to_vocab = pickle.load(open('../../../data/ix_to_vocab.pickle'))
-	ix_to_class_obj = pickle.load(open('../../../data/ix_to_class_obj.pickle'))
-	class_obj_to_ix = pickle.load(open('../../../data/class_obj_to_ix.pickle'))
-	model_q = pickle.load(open('../../../data/questions.pickle'))
-	model_cls = pickle.load(open('../../../data/classes_obj.pickle'))
-	#enc_dec = pickle.load(open('../../../data/demo/' + model_file))
-	enc_dec = pickle.load(open('../../../code/RNN/enc_dec/'+model_file))
-	classes = open('../../../code/RNN/create_dataset/classes_obj.txt').read().split(';')
+	inputs = pickle.load(open('app/main/data/enc_dec_inputs.pickle'))
+	targets = pickle.load(open('app/main/data/enc_dec_targets.pickle'))
+	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word.pickle'))
+	first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix.pickle'))
+	vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix.pickle'))
+	ix_to_vocab = pickle.load(open('app/main/data/ix_to_vocab.pickle'))
+	ix_to_class_obj = pickle.load(open('app/main/data/ix_to_class_obj.pickle'))
+	class_obj_to_ix = pickle.load(open('app/main/data/class_obj_to_ix.pickle'))
+	model_q = pickle.load(open('app/main/data/questions.pickle'))
+	model_cls = pickle.load(open('app/main/data/classes_obj.pickle'))
+	#enc_dec = pickle.load(open('app/main/data/demo/' + model_file))
+	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/'+model_file))
+	classes = open('app/main/code/RNN/create_dataset/classes_obj.txt').read().split(';')
 	# del classes[classes.index('other')]
 	# del classes[classes.index('people')]
-	obj = eval(open("../../../code/RNN/create_dataset/objects.txt").read())
+	obj = eval(open("app/main/code/RNN/create_dataset/objects.txt").read())
 	# for i in range(len(classes)):
 	#     print 'Class : ', classes[i] #eval(open('ques.txt').read()).values()[500]
 	#     print 'Object : ', obj[i]
@@ -49,16 +49,16 @@ def test(class_test,model_file='single.p'):
 
 
 def train_gru(inputs,targets):
-	inputs = pickle.load(open('../../../data/enc_dec_inputs_pair.pickle'))
-	targets = pickle.load(open('../../../data/enc_dec_targets_pair.pickle'))
-	ix_to_first_word = pickle.load(open('../../../data/ix_to_first_word_pair.pickle'))
-	first_word_to_ix = pickle.load(open('../../../data/first_word_to_ix_pair.pickle'))
-	vocab_to_ix = pickle.load(open('../../../data/vocab_to_ix_pair.pickle'))
-	ix_to_vocab = pickle.load(open('../../../data/ix_to_vocab_pair.pickle'))
-	ix_to_class_obj = pickle.load(open('../../../data/ix_to_class_obj_pair.pickle'))
-	class_obj_to_ix = pickle.load(open('../../../data/class_obj_to_ix_pair.pickle'))
-	model_q = pickle.load(open('../../../data/questions_pair.pickle'))
-	model_cls = pickle.load(open('../../../data/classes_obj_pair.pickle'))
+	inputs = pickle.load(open('app/main/data/enc_dec_inputs_pair.pickle'))
+	targets = pickle.load(open('app/main/data/enc_dec_targets_pair.pickle'))
+	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word_pair.pickle'))
+	first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix_pair.pickle'))
+	vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix_pair.pickle'))
+	ix_to_vocab = pickle.load(open('app/main/data/ix_to_vocab_pair.pickle'))
+	ix_to_class_obj = pickle.load(open('app/main/data/ix_to_class_obj_pair.pickle'))
+	class_obj_to_ix = pickle.load(open('app/main/data/class_obj_to_ix_pair.pickle'))
+	model_q = pickle.load(open('app/main/data/questions_pair.pickle'))
+	model_cls = pickle.load(open('app/main/data/classes_obj_pair.pickle'))
 	enc_dec = ecr([len(ix_to_class_obj.keys()),100,len(ix_to_first_word.keys())], [len(ix_to_vocab.keys()),100,len(ix_to_vocab.keys())], output_layer=None)
 	
 	#ei = [np.zeros((len(ix_to_first_word.keys()),1)) for i in inputs]
@@ -101,14 +101,14 @@ def train_gru(inputs,targets):
 	enc_dec.train(ei,eo,di,do,max_iter=10)
 	enc_dec.save('trained_multiple_10ep_30k.p')
 	
-	enc_dec = pickle.load(open('../../../code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
-	classes = open('../../../code/RNN/create_dataset/classes_obj_pair.txt').read().split(';')
+	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
+	classes = open('app/main/code/RNN/create_dataset/classes_obj_pair.txt').read().split(';')
 	# del classes[classes.index('other')]
 	# del classes[classes.index('people')]
-	obj = eval(open("../../../code/RNN/create_dataset/objects.txt").read())
+	obj = eval(open("app/main/code/RNN/create_dataset/objects.txt").read())
 	c = 0
 	#pdb.set_trace()
-	class_ques = eval(open("../../../data/class_ques_lookup.txt").read())
+	class_ques = eval(open("app/main/data/class_ques_lookup.txt").read())
 	class_combinations = list(combinations(class_ques.keys(),2))
 	print len(class_combinations)
 	for i in class_combinations:
@@ -169,24 +169,24 @@ def train_gru(inputs,targets):
 	'''
 
 def test_gru(class_pair):
-	enc_dec = pickle.load(open('../../../code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
-	inputs = pickle.load(open('../../../data/enc_dec_inputs_pair.pickle'))
-	targets = pickle.load(open('../../../data/enc_dec_targets_pair.pickle'))
-	ix_to_first_word = pickle.load(open('../../../data/ix_to_first_word_pair.pickle'))
-	first_word_to_ix = pickle.load(open('../../../data/first_word_to_ix_pair.pickle'))
-	vocab_to_ix = pickle.load(open('../../../data/vocab_to_ix_pair.pickle'))
-	ix_to_vocab = pickle.load(open('../../../data/ix_to_vocab_pair.pickle'))
-	ix_to_class_obj = pickle.load(open('../../../data/ix_to_class_obj_pair.pickle'))
-	class_obj_to_ix = pickle.load(open('../../../data/class_obj_to_ix_pair.pickle'))
-	model_q = pickle.load(open('../../../data/questions_pair.pickle'))
-	model_cls = pickle.load(open('../../../data/classes_obj_pair.pickle'))
-	classes = open('../../../code/RNN/create_dataset/classes_obj_pair.txt').read().split(';')
+	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_1k.p'))
+	inputs = pickle.load(open('app/main/data/enc_dec_inputs_pair.pickle'))
+	targets = pickle.load(open('app/main/data/enc_dec_targets_pair.pickle'))
+	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word_pair.pickle'))
+	first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix_pair.pickle'))
+	vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix_pair.pickle'))
+	ix_to_vocab = pickle.load(open('app/main/data/ix_to_vocab_pair.pickle'))
+	ix_to_class_obj = pickle.load(open('app/main/data/ix_to_class_obj_pair.pickle'))
+	class_obj_to_ix = pickle.load(open('app/main/data/class_obj_to_ix_pair.pickle'))
+	model_q = pickle.load(open('app/main/data/questions_pair.pickle'))
+	model_cls = pickle.load(open('app/main/data/classes_obj_pair.pickle'))
+	classes = open('app/main/code/RNN/create_dataset/classes_obj_pair.txt').read().split(';')
 	# del classes[classes.index('other')]
 	# del classes[classes.index('people')]
-	obj = eval(open("../../../code/RNN/create_dataset/objects.txt").read())
+	obj = eval(open("app/main/code/RNN/create_dataset/objects.txt").read())
 	c = 0
 
-	#class_ques = eval(open("../../../data/class_ques_lookup.txt").read())
+	#class_ques = eval(open("app/main/data/class_ques_lookup.txt").read())
 	#class_combinations = list(combinations(class_ques.keys(),2))
 	#print len(class_combinations)
 	#for i in class_combinations:
@@ -213,20 +213,20 @@ if __name__ == "__main__":
 	#     print "[2] python train_test.py test model_file"
 	#     #exit()
 	
-	inputs = pickle.load(open('../../../data/enc_dec_inputs.pickle'))
-	targets = pickle.load(open('../../../data/enc_dec_targets.pickle'))
-	# ix_to_first_word = pickle.load(open('../../../data/ix_to_first_word.pickle'))
-	# first_word_to_ix = pickle.load(open('../../../data/first_word_to_ix.pickle'))
-	# vocab_to_ix = pickle.load(open('../../../data/vocab_to_ix.pickle'))
-	# ix_to_vocab = pickle.load(open('../../../data/ix_to_vocab.pickle'))
-	# ix_to_class_obj = pickle.load(open('../../../data/ix_to_class_obj.pickle'))
-	# class_obj_to_ix = pickle.load(open('../../../data/class_obj_to_ix.pickle'))
-	# model_q = pickle.load(open('../../../data/questions.pickle'))
-	# model_cls = pickle.load(open('../../../data/classes_obj.pickle'))
+	inputs = pickle.load(open('app/main/data/enc_dec_inputs.pickle'))
+	targets = pickle.load(open('app/main/data/enc_dec_targets.pickle'))
+	# ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word.pickle'))
+	# first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix.pickle'))
+	# vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix.pickle'))
+	# ix_to_vocab = pickle.load(open('app/main/data/ix_to_vocab.pickle'))
+	# ix_to_class_obj = pickle.load(open('app/main/data/ix_to_class_obj.pickle'))
+	# class_obj_to_ix = pickle.load(open('app/main/data/class_obj_to_ix.pickle'))
+	# model_q = pickle.load(open('app/main/data/questions.pickle'))
+	# model_cls = pickle.load(open('app/main/data/classes_obj.pickle'))
 	if(sys.argv[1] == "single"):
 		test(sys.argv[2])
 	else:
-		train_gru(inputs,targets)
+		# train_gru(inputs,targets)
 		test_gru((sys.argv[2],sys.argv[3]))
 		
 	#test_gru([('other','clothing')])

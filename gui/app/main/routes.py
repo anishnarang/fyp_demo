@@ -113,10 +113,22 @@ def multiple():
 	form = MainForm()
 	recaptcha = Recaptcha()
 
-	answer_choices=["Option1","Option2","Option3","Option4"]
+	answer_choices = []
 	image_list = getRandomImages(4)
-	question = "This is a longer Sample Question to see if it fits."
+	selected_images = random.sample(image_list,2)
+	img1_tuples = img_annotations[selected_images[0].split(".")[0]]
+	img2_tuples = img_annotations[selected_images[1].split(".")[0]]
+
+	img1_chosen = random.sample(img1_tuples,1)
+	img2_chosen = random.sample(img2_tuples,1)
+	print img1_chosen,img2_chosen
+	
+	cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
+	question = os.popen(cmd).read().split("\n")[2]
+	print question
 	name = make_composite(*image_list)
+	answer_choices.append(img1_chosen[0][1].title())
+	answer_choices.append(img2_chosen[0][1].title())
 
 	if form.submit.data:
 		flag = False
