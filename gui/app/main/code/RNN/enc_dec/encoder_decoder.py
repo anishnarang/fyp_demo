@@ -4,8 +4,6 @@ def load(filename):
     return pickle.load(open(filename))
 
 class encoder_decoder(object):
-
-
     def __init__(self, enc_output_dim, enc_input_dim, enc_hidden_size, dec_output_dim, dec_input_dim, dec_hidden_size):
         '''
         Initialise parameters for the encoder and decoder

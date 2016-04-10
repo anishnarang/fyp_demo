@@ -10,31 +10,33 @@ class_ques = {}
 for tup in data:
     print c
     if tup[0] == 'animals' :
-        tags = nltk.pos_tag(nltk.word_tokenize(tup[1]))
-        for t in tags:
-            if t[1] == 'CD': # number 
-                #ques_list.append((tup[0], 'How many ' + tup[1].replace(t[0],'').strip() + ' are present in the image ?', tup[1], 0))
-                ques_list.append((tup[0],'How many ' + tup[0] + ' are present in the image ?',tup[1], 1))
-                class_ques[tup[0]] = ['How many ' + tup[0] + ' are present in the image ']
-            if t[1] == 'JJ' and t[1] in colors.cnames.keys(): # color
-                for x in tags:
-                    if x[1] == 'NNS' or x[1] == 'NN':
-                        ques_list.append((tup[0], 'What is the color of ' + x[0] + ' shown in the image ?', tup[1], 0))
+        ques_list.append((tup[0], 'What animals are shown in the picture ?',tup[1],1))
+        class_ques[tup[0]] = ['What animals are shown in the picture ']
+        # tags = nltk.pos_tag(nltk.word_tokenize(tup[1]))
+        # for t in tags:
+        #     if t[1] == 'CD': # number 
+        #         #ques_list.append((tup[0], 'How many ' + tup[1].replace(t[0],'').strip() + ' are present in the image ?', tup[1], 0))
+        #         ques_list.append((tup[0],'How many ' + tup[0] + ' are present in the image ?',tup[1], 1))
+        #         class_ques[tup[0]] = ['How many ' + tup[0] + ' are present in the image ']
+        #     if t[1] == 'JJ' and t[1] in colors.cnames.keys(): # color
+        #         for x in tags:
+        #             if x[1] == 'NNS' or x[1] == 'NN':
+        #                 ques_list.append((tup[0], 'What is the color of ' + x[0] + ' shown in the image ?', tup[1], 0))
 
     elif tup[0] == 'vehicles':
         ques_list.append((tup[0],'Which type of vehicle(s) are present in the image ?',tup[1], 1))
         class_ques[tup[0]] = ['Which type of vehicle(s) are present in the image ']
     elif tup[0] == 'people':
-        tags = nltk.pos_tag(nltk.word_tokenize(tup[1]))
-        for t in tags:
-            if t[1] == 'CD': # number 
+        # tags = nltk.pos_tag(nltk.word_tokenize(tup[1]))
+        # for t in tags:
+        #     if t[1] == 'CD': # number 
                 #ques_list.append((tup[0], 'How many ' + tup[1].replace(t[0],'').strip() + ' are there in the image ?', tup[1], 0))
-                ques_list.append((tup[0], 'How many ' + tup[0] + ' are present in the image ?', tup[1], 1))
-                class_ques[tup[0]] = ['How many ' + tup[0] + ' are present in the image ']
+        ques_list.append((tup[0], 'Choose the option that best describes the people in the image ?', tup[1], 1))
+        class_ques[tup[0]] = ['Choose the option that best describes the people in the image ']
 
     elif tup[0] == 'clothing':
-        ques_list.append((tup[0], 'What is the person in the image wearing ?' , tup[1], 1))
-        class_ques[tup[0]] = ['What is the person in the image wearing ']
+        ques_list.append((tup[0], 'Identify the type of clothing depicted in the image ?' , tup[1], 1))
+        class_ques[tup[0]] = ['Identify the type of clothing depicted in the image ']
 
     elif tup[0] == 'other':
         ques_list.append((tup[0], 'Which of the following is present in the image ?' , tup[1], 1))

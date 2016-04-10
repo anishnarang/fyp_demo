@@ -1,7 +1,7 @@
 from code.RNN.enc_dec import train_test
 
 ques={}
-d=eval(open("annotations.txt").read())
+d=eval(open("app/main/annotations.txt").read())
 for k in d.keys():
 	for v in d[k]:
         	if v[0][0] in ques.keys():

@@ -1,4 +1,4 @@
-import encoder_decoder
+from encoder_decoder import *
 import pickle
 import sys
 import time
@@ -6,7 +6,17 @@ from enc_dec_gru_sutskever_vinyals import EncoderDecoderRnn as ecr
 from itertools import permutations,combinations
 import numpy as np
 
-def train(model_file):
+def train(model_file='single.p'):
+	inputs = pickle.load(open('app/main/data/enc_dec_inputs.pickle'))
+	targets = pickle.load(open('app/main/data/enc_dec_targets.pickle'))
+	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word.pickle'))
+	first_word_to_ix = pickle.load(open('app/main/data/first_word_to_ix.pickle'))
+	vocab_to_ix = pickle.load(open('app/main/data/vocab_to_ix.pickle'))
+	ix_to_vocab = pickle.load(open('app/main/data/ix_to_vocab.pickle'))
+	ix_to_class_obj = pickle.load(open('app/main/data/ix_to_class_obj.pickle'))
+	class_obj_to_ix = pickle.load(open('app/main/data/class_obj_to_ix.pickle'))
+	model_q = pickle.load(open('app/main/data/questions.pickle'))
+	model_cls = pickle.load(open('app/main/data/classes_obj.pickle'))
 	enc_dec = encoder_decoder(len(first_word_to_ix.keys()), len(ix_to_class_obj.keys()), 100, len(vocab_to_ix.keys()), 30, 100)
 	enc_dec.train(inputs, targets, 2, vocab_to_ix, first_word_to_ix, model_q)
 	enc_dec.save('app/main/data/' + model_file)
@@ -23,7 +33,7 @@ def test(class_test,model_file='single.p'):
 	model_q = pickle.load(open('app/main/data/questions.pickle'))
 	model_cls = pickle.load(open('app/main/data/classes_obj.pickle'))
 	#enc_dec = pickle.load(open('app/main/data/demo/' + model_file))
-	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/'+model_file))
+	enc_dec = pickle.load(open('app/main/data/'+model_file))
 	classes = open('app/main/code/RNN/create_dataset/classes_obj.txt').read().split(';')
 	# del classes[classes.index('other')]
 	# del classes[classes.index('people')]
@@ -33,6 +43,7 @@ def test(class_test,model_file='single.p'):
 	#     print 'Object : ', obj[i]
 	ques = enc_dec.predict_question([class_obj_to_ix[class_test]], ix_to_first_word, ix_to_vocab, model_q)
 	#print "Class:",class_test
+	print ques
 	# if classes[i] == 'clothing' and ques == 'What is the person in the image wearing ?':
 	#     c += 1
 	# elif classes[i] in ques.split(' '):
