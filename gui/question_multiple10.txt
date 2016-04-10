@@ -1,0 +1,1 @@
+{'answer_choices': ['The Street', 'An Orange Fence', 'Light Brown Slacks', 'One Side Car'], 'question': 'Choose the option that best describes the scene and Which of the following is present in the image ? ', 'correct_answers': ['The Street', 'An Orange Fence']}

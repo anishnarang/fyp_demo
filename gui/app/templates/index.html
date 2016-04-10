@@ -24,8 +24,14 @@
         			alert(arr[i].value);
         	}
         }
+
+
+
         function loadImg(e,q_list,ch_list)
         {
+            if(document.getElementById("alert"))
+                document.getElementById("alert").style.display = "none";
+
             id = parseInt(e.target.id);
 
             document.getElementById("header").innerHTML = "question";
@@ -51,6 +57,8 @@
                 inp.type="checkbox";
                 inp.name=choices[i];
                 inp.value=choices[i];
+                inp.id = "check"+i; 
+
 
                 li.appendChild(inp);
                 li.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;"+choices[i];
@@ -58,13 +66,18 @@
                 ul.innerHTML += "<br>";
                 ul.appendChild(li);
             }
-            label.appendChild(ul)
+            label.appendChild(ul);
+            $('input[type="checkbox"]').on('change', function() {
+                           $('input[type="checkbox"]').not(this).prop('checked', false);
+                        });
 
         }
         function loadAllImages(l)
         {
+
         	for(i=0;i<=8;i++)
         	{
+                console.log(l[i]);
         		document.getElementById(""+(i+1)).src = "http://localhost:5000/static/"+l[i];
         	}	
         }
@@ -74,7 +87,7 @@
 		        <a class="navbar-brand" href="#page-top" style="height:40px;top:5px;position:absolute;">Single Image Based CAPTCHA System</a>
 		    </nav>
 	        <header>
-	        <div class="container" style="height:800px;">
+	        <div class="container" style="height:658px;">
 	            <div class="row">
 	                <div class="col-lg-12">
 	                </div>
@@ -83,9 +96,9 @@
 	    	</header>
        
 
-        <img id="img" height="410" width="450" style="float:left;top:12%;left:10%;position:fixed;border:5px solid #0B0B3B;display:none;">
-         <table style="float:left;top:78%;left:1%;position:fixed;border-collapse: separate; border-spacing: 15px;">
-        	<h4 style="float:left;top:75%;left:1%;position:fixed;">Select An Image From Below To Answer.</h4>
+        <img id="img" height="410" width="450" style="float:left;top:12%;left:10%;position:absolute;border:5px solid #0B0B3B;display:none;">
+         <table style="float:left;top:78%;left:1%;position:absolute;border-collapse: separate; border-spacing: 15px;">
+        	<h4 style="float:left;top:75%;left:1%;position:absolute;">Select An Image From Below To Answer.</h4>
             <tr>
         		<td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="1"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
                 <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="2"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
@@ -100,14 +113,14 @@
 		
 
         <form method="POST" action="{{ url_for('main.index') }}">
-        <div style="top:17%;left:55%;position:fixed;width:410px;">
+        <div style="top:17%;left:55%;position:absolute;width:410px;">
          {% if alert_message %}
                 {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
-                    {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
-                <div class="{{ alert_class }}">
-                   <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
+                    {% set alert_class = "alert alert-" + alert_type %}
+                <div id="alert" class="{{ alert_class }}" style="top:40%;left:30%;position:fixed;width:380px;">
+                  <!--  <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
                       &times;
-                   </button>
+                   </button> -->
                   <p> {{alert_message | e }} </p>
                 </div>
         {% endif %}
@@ -121,7 +134,7 @@
 
 		<input name="submit" id="submit" style="display:none;" type="submit" class="btn btn-primary" value="SUBMIT" onclick="">
 
-        <a name="recaptcha" href="http://localhost:5000/single" class="btn btn-primary" style="position:absolute;top:510px;left:440px;">
+        <a name="recaptcha" href="http://localhost:5000/single" class="btn btn-primary" style="position:absolute;top:410px;left:440px;">
           <span class="glyphicon glyphicon-refresh"></span> ReCaptcha
         </a>
 		</div>

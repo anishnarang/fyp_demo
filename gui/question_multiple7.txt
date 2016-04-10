@@ -1,0 +1,1 @@
+{'answer_choices': ['A Woman', 'City Hall Building', 'A Green Jacket', '95'], 'question': 'How many people are present in the image and Which of the following is present in the image ? ', 'correct_answers': ['A Green Jacket', 'A Woman']}

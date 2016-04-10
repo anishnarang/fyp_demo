@@ -1,0 +1,1 @@
+{'answer_choices': ['Flooding Street', 'A Dog', 'Gray Hair', 'Brick Path'], 'question': 'Identify the bodypart present in the image and Which of the following is present in the image ? ', 'correct_answers': ['A Dog', 'Gray Hair']}

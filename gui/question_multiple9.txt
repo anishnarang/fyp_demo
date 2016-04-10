@@ -1,0 +1,1 @@
+{'answer_choices': ['A Dog', 'Nba Logo', 'A Child', 'Troops'], 'question': 'How many animals are present in the image and Which of the following is present in the image ? ', 'correct_answers': ['A Child', 'A Dog']}

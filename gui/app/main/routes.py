@@ -23,7 +23,12 @@ def create_single_options(cls,obj_list):
 	shuffle(all_obj)
 	ops = list(set(all_obj) - set(obj_list))
 	shuffle(ops)
-	res = ops[:3]
+	res = ops[:2]
+
+	for k in class_obj.keys():
+		if k != cls:
+			res.extend(random.sample(class_obj[k],1))
+			break
 
 	return res
 
@@ -80,53 +85,80 @@ def getRandomImages(num):
 	return images
 ans_list = []
 choices_list = []
-image_list = getRandomImages(9)
 question_list = []
 ans_list = []
 @main.route("/single",methods=['POST'])
 def single_answers():
 	print "in single"
-	global ans_list
-	print ans_list
+	global choices_list,image_list,question_list,ans_list ,image_list
+	# print ans_list
 	if request.method=='POST' and request.form['submit']:
-		print dict(request.form).keys()
 		for ch in dict(request.form).keys():
 			if ch in ans_list:
 				print "Selected Option:",ch
-				return render_template("index.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
-			else:
-				return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
-	global choices_list,image_list,question_list,ans_list 
-	# ans_list = []
-	# choices_list = []
-	# image_list = getRandomImages(9)
-	# question_list = []
-	# for img in image_list:
-	# 	question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
-	# 	ans_list.append(img_annotations[img.split(".")[0]][0][1].title())
-	# 	choices = [img_annotations[img.split(".")[0]][0][1].title()]
-	# 	choices.extend(create_single_options(img_annotations[img.split(".")[0]][0][0],img_annotations[img.split(".")[0]]))
-		
-	# 	to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
-	# 	new_choices = []
-	# 	for ch in choices:
-	# 		for word in to_be_removed:
-	# 			if word in ch:
-	# 				ch = ch.replace(word,"")
-	# 		new_choices.append(ch)
-	# 	choices = new_choices
-	# 	shuffle(choices)
-	# 	choices_list.append(";".join(choices))
+				ans_list = []
+				choices_list = []
+				image_list = getRandomImages(9)
+				question_list = []
+				for img in image_list:
+					question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
+					ans_list.append(img_annotations[img.split(".")[0]][0][1].title())
+					choices = [img_annotations[img.split(".")[0]][0][1].title()]
+					choices.extend(create_single_options(img_annotations[img.split(".")[0]][0][0],img_annotations[img.split(".")[0]]))
+					
+					to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
+					new_choices = []
+					for ch in choices:
+						for word in to_be_removed:
+							if word in ch:
+								ch = ch.replace(word,"")
+						new_choices.append(ch)
+					choices = new_choices
+					shuffle(choices)
+					choices_list.append(";".join(choices))
 
-	# 	new_ans_list = []
-	# 	for ans in ans_list:
-	# 		for word in to_be_removed:
-	# 			if word in ans:
-	# 				ans = ans.replace(word,"")
-	# 		new_ans_list.append(ans)
-	# 	ans_list = new_ans_list
-	# print "Answers:",str(ans_list)
-	
+					new_ans_list = []
+					for ans in ans_list:
+						for word in to_be_removed:
+							if word in ans:
+								ans = ans.replace(word,"")
+						new_ans_list.append(ans)
+					ans_list = new_ans_list
+				print "=====================================================================\nAnswers:",str(ans_list)
+				return render_template("index.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
+		else:
+			print "Selected Option:",ch
+			ans_list = []
+			choices_list = []
+			image_list = getRandomImages(9)
+			question_list = []
+			for img in image_list:
+				question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
+				ans_list.append(img_annotations[img.split(".")[0]][0][1].title())
+				choices = [img_annotations[img.split(".")[0]][0][1].title()]
+				choices.extend(create_single_options(img_annotations[img.split(".")[0]][0][0],img_annotations[img.split(".")[0]]))
+				
+				to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
+				new_choices = []
+				for ch in choices:
+					for word in to_be_removed:
+						if word in ch:
+							ch = ch.replace(word,"")
+					new_choices.append(ch)
+				choices = new_choices
+				shuffle(choices)
+				choices_list.append(";".join(choices))
+
+				new_ans_list = []
+				for ans in ans_list:
+					for word in to_be_removed:
+						if word in ans:
+							ans = ans.replace(word,"")
+					new_ans_list.append(ans)
+				ans_list = new_ans_list
+			print "Answers:",str(ans_list)
+			return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
+
 	return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
 
 
@@ -144,7 +176,7 @@ def index():
 		choices = [img_annotations[img.split(".")[0]][0][1].title()]
 		choices.extend(create_single_options(img_annotations[img.split(".")[0]][0][0],img_annotations[img.split(".")[0]]))
 		
-		to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
+		to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
 		new_choices = []
 		for ch in choices:
 			for word in to_be_removed:
