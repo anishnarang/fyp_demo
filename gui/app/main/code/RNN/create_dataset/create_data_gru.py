@@ -1,7 +1,7 @@
 import pickle
 from gensim.models import Word2Vec
 
-ques = pickle.load(open("../../../data/image_wise_quesn.pickle",'rb'))
+ques = pickle.load(open("../../../data/image_wise_quesn_pair.pickle",'rb'))
 classes_obj = []
 obj = []
 initial_questions = []
@@ -41,7 +41,7 @@ open("questions_pair.txt","w").write(";".join(questions))
 
 inputs = []
 targets = []
-d = eval(open('ques_annotations.txt').read())
+d = eval(open('ques_annotations_pair.txt').read())
 ques_vocab = set()
 first_words = set()
 class_obj = set()

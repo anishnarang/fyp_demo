@@ -119,7 +119,7 @@ def train_gru():
 	obj = eval(open("app/main/code/RNN/create_dataset/objects.txt").read())
 	c = 0
 	#pdb.set_trace()
-	class_ques = eval(open("app/main/data/class_ques_lookup.txt").read())
+	class_ques = eval(open("app/main/data/class_ques_lookup_pair.txt").read())
 	class_combinations = list(combinations(class_ques.keys(),2))
 	print len(class_combinations)
 	for i in class_combinations:
@@ -181,6 +181,7 @@ def train_gru():
 
 def test_gru(class_pair):
 	enc_dec = pickle.load(open('app/main/code/RNN/enc_dec/trained_multiple_10ep_30k.p'))
+	#enc_dec = pickle.load(open('trained_multiple_10ep_30k.p'))
 	inputs = pickle.load(open('app/main/data/enc_dec_inputs_pair.pickle'))
 	targets = pickle.load(open('app/main/data/enc_dec_targets_pair.pickle'))
 	ix_to_first_word = pickle.load(open('app/main/data/ix_to_first_word_pair.pickle'))

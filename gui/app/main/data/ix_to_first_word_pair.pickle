@@ -1,9 +1,9 @@
 (dp0
 I0
-S'What'
+S'Select'
 p1
 sI1
-S'How'
+S'What'
 p2
 sI2
 S'Identify'
@@ -14,7 +14,4 @@ p4
 sI4
 S'Which'
 p5
-sI5
-S'Select'
-p6
 s.
