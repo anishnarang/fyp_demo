@@ -29,11 +29,10 @@
         {% endif %}
           
         {% if question %}
-          <div style="top:17%;left:60%;position:fixed;width:400px;">
           {% if wrong %} 
              {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
                 {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
-            <div class="{{ alert_class }}">
+            <div class="{{ alert_class }}" style="top:13%;left:55%;position:absolute;width:470px;">
                <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
                   &times;
                </button>
@@ -43,14 +42,14 @@
           {% if success %} 
             {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
                 {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
-            <div class="{{ alert_class }}">
+            <div class="{{ alert_class }}" style="top:13%;left:55%;position:absolute;width:470px;">
                <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
                   &times;
                </button>
               <p> {{alert_message | e }} </p>
           </div>          
           {% endif %}
-
+          <div style="top:25%;left:60%;position:absolute;width:450px;">
           <form method="POST" action="{{ url_for('main.multiple') }}" id="myform">
           <h3><u id="header">QUESTION</u></h3>
   		    <p id="question">{{ question }}</p>

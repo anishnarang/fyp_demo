@@ -43,7 +43,7 @@ def test(class_test,model_file='single.p'):
 	#     print 'Object : ', obj[i]
 	ques = enc_dec.predict_question([class_obj_to_ix[class_test]], ix_to_first_word, ix_to_vocab, model_q)
 	#print "Class:",class_test
-	print ques
+	# print ques
 	# if classes[i] == 'clothing' and ques == 'What is the person in the image wearing ?':
 	#     c += 1
 	# elif classes[i] in ques.split(' '):

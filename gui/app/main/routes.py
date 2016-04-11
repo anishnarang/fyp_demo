@@ -83,13 +83,14 @@ def getRandomImages(num):
 		r = random.randint(0,len(l)-1)
 		images.append(l[r])
 	return images
+
+
 ans_list = []
 choices_list = []
 question_list = []
 ans_list = []
 @main.route("/single",methods=['POST'])
 def single_answers():
-	print "in single"
 	global choices_list,image_list,question_list,ans_list ,image_list
 	# print ans_list
 	if request.method=='POST' and request.form['submit']:
@@ -197,10 +198,174 @@ def index():
 	print "Answers:",str(ans_list)
 	
 	return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
+
+
+correct_answers = []
 	
+@main.route("/multiple",methods=['POST'])	
+def multiple_answers():
+	form = MainForm()
+	recaptcha = Recaptcha()
+	global correct_answers
+
+	if form.submit.data:
+		count = 0
+		answers= []
+
+		for ch in dict(request.form).keys():
+			if ch != 'submit':
+				answers.append(ch)
+				# count+=1 #Correct answer
+		
+		if sorted(answers) == sorted(correct_answers) :
+			# Correct answer 
+			answer_choices = []
+			image_list = getRandomImages(4)
+
+
+			selected_images = random.sample(image_list,2)
+			img1_tuples = img_annotations[selected_images[0].split(".")[0]]
+			img2_tuples = img_annotations[selected_images[1].split(".")[0]]
+
+			img1_chosen = random.sample(img1_tuples,1)
+			img2_chosen = random.sample(img2_tuples,1)
+
+			print "Classes:",img1_chosen[0][0]+ " " + img2_chosen[0][0]
+			cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
+			question = os.popen(cmd).read().split("\n")[2]
+			print "Question: ",question
+			name = make_composite(*image_list)
+			print "Image: ",name
+
+			## Forming the options
+
+			# Getting all (class,obj) pairs for all 4 images
+			all_tuples = []
+			all_tuples.extend(img_annotations[image_list[0].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[1].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[2].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[3].split(".")[0]])
+			all_tuples = list(set(all_tuples))
+
+			# Select the tuple from all_tuples if the class matches the classes of the 2 selected images
+			all_obj = [t for t in all_tuples if t[0] == img1_chosen[0][0] or t[0] == img2_chosen[0][0]]
+			
+			# Pass this to the function
+			answer_choices.extend(create_multiple_options(all_obj))
+
+			# 2 options of different classes
+			other_classes = [k for k in class_obj.keys() if k != img1_chosen[0][0] or k!=img2_chosen[0][0]]
+			random_classes = random.sample(other_classes,2)
+			answer_choices.extend(random.sample(class_obj[random_classes[0]],1))
+			answer_choices.extend(random.sample(class_obj[random_classes[1]],1))
+				
+
+			# Append the correct answer to the answer_choices
+			answer_choices.append(img1_chosen[0][1].title())
+			answer_choices.append(img2_chosen[0][1].title())
+			
+			correct_answers = [img1_chosen[0][1].title(),img2_chosen[0][1].title()]
+
+			shuffle(answer_choices)
+
+			# Sanitize the choices
+			to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+			new_choices = []
+			for ch in answer_choices:
+				for word in to_be_removed:
+					if word in ch:
+						ch = ch.replace(word,"")
+				new_choices.append(ch)
+			answer_choices = new_choices
+
+			# Sanitize answers
+			to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+			new_choices = []
+			for ch in correct_answers:
+				for word in to_be_removed:
+					if word in ch:
+						ch = ch.replace(word,"")
+				new_choices.append(ch)
+			correct_answers = new_choices
+			print "Correct Answers:",correct_answers
+			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,success=True,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
+		else:
+			# Wrong answer
+			form = MainForm()
+			recaptcha = Recaptcha()
+
+			answer_choices = []
+			image_list = getRandomImages(4)
+
+
+			selected_images = random.sample(image_list,2)
+			img1_tuples = img_annotations[selected_images[0].split(".")[0]]
+			img2_tuples = img_annotations[selected_images[1].split(".")[0]]
+
+			img1_chosen = random.sample(img1_tuples,1)
+			img2_chosen = random.sample(img2_tuples,1)
+
+			print "Classes:",img1_chosen[0][0]+ " " + img2_chosen[0][0]
+			cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
+			question = os.popen(cmd).read().split("\n")[2]
+			print "Question: ",question
+			name = make_composite(*image_list)
+			print "Image: ",name
+
+			## Forming the options
+
+			# Getting all (class,obj) pairs for all 4 images
+			all_tuples = []
+			all_tuples.extend(img_annotations[image_list[0].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[1].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[2].split(".")[0]])
+			all_tuples.extend(img_annotations[image_list[3].split(".")[0]])
+			all_tuples = list(set(all_tuples))
+
+			# Select the tuple from all_tuples if the class matches the classes of the 2 selected images
+			all_obj = [t for t in all_tuples if t[0] == img1_chosen[0][0] or t[0] == img2_chosen[0][0]]
+			
+			# Pass this to the function
+			answer_choices.extend(create_multiple_options(all_obj))
+
+			# Append the correct answer to the answer_choices
+			answer_choices.append(img1_chosen[0][1].title())
+			answer_choices.append(img2_chosen[0][1].title())
+
+			# 2 options of different classes
+			other_classes = [k for k in class_obj.keys() if k != img1_chosen[0][0] or k!=img2_chosen[0][0]]
+			random_classes = random.sample(other_classes,2)
+			answer_choices.extend(random.sample(class_obj[random_classes[0]],1))
+			answer_choices.extend(random.sample(class_obj[random_classes[1]],1))
+			
+			correct_answers = [img1_chosen[0][1].title(),img2_chosen[0][1].title()]
+
+			shuffle(answer_choices)
+			to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+			new_choices = []
+			for ch in answer_choices:
+				for word in to_be_removed:
+					if word in ch:
+						ch = ch.replace(word,"")
+				new_choices.append(ch)
+			answer_choices = new_choices
+
+			# Sanitize answers
+			to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+			new_choices = []
+			for ch in correct_answers:
+				for word in to_be_removed:
+					if word in ch:
+						ch = ch.replace(word,"")
+				new_choices.append(ch)
+			correct_answers = new_choices
+
+			print "Correct Answers:",correct_answers
+			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
 	
-@main.route("/multiple",methods=['GET','POST'])
+@main.route("/multiple",methods=['GET'])
 def multiple():
+	global correct_answers
 	form = MainForm()
 	recaptcha = Recaptcha()
 
@@ -218,8 +383,9 @@ def multiple():
 	print "Classes:",img1_chosen[0][0]+ " " + img2_chosen[0][0]
 	cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
 	question = os.popen(cmd).read().split("\n")[2]
-	print question
+	print "Question: ",question
 	name = make_composite(*image_list)
+	print "Image: ",name
 
 	## Forming the options
 
@@ -240,24 +406,38 @@ def multiple():
 	# Append the correct answer to the answer_choices
 	answer_choices.append(img1_chosen[0][1].title())
 	answer_choices.append(img2_chosen[0][1].title())
+
+	# 2 options of different classes
+	other_classes = [k for k in class_obj.keys() if k != img1_chosen[0][0] or k!=img2_chosen[0][0]]
+	random_classes = random.sample(other_classes,2)
+	answer_choices.extend(random.sample(class_obj[random_classes[0]],1))
+	answer_choices.extend(random.sample(class_obj[random_classes[1]],1))
 	
 	correct_answers = [img1_chosen[0][1].title(),img2_chosen[0][1].title()]
 
 	shuffle(answer_choices)
+
+	# Sanitize the choices
+	to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+	new_choices = []
+	for ch in answer_choices:
+		for word in to_be_removed:
+			if word in ch:
+				ch = ch.replace(word,"")
+		new_choices.append(ch)
+	answer_choices = new_choices
+
+	# Sanitize answers
+	to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
+	new_choices = []
+	for ch in correct_answers:
+		for word in to_be_removed:
+			if word in ch:
+				ch = ch.replace(word,"")
+		new_choices.append(ch)
+	correct_answers = new_choices
+
 	print "Correct Answers:",correct_answers
 
-	if form.submit.data:
-		count = 0
-		for ch in answer_choices:
-			if ch in dict(request.form).keys():
-				count+=1 #Correct answer
-
-		
-		if count == 2 :
-			# Correct answer 
-			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,success=True,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
-		else:
-			# Wrong answer
-			return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
 	
-	# return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
+	return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
