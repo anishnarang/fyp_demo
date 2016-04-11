@@ -1,1 +1,0 @@
-{'answer_choices': ['Empty Auditorium', 'Another Instrument', 'A Little Boy', 'People'], 'question': 'How many people are present in the image and Which of the following is present in the image ? ', 'correct_answers': ['People', 'A Little Boy']}

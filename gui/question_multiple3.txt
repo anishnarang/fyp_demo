@@ -1,1 +1,0 @@
-{'answer_choices': ['The Side Of The Road', 'Blue White Striped Sweater', 'A Young Boy', 'Barbecue Grill'], 'question': 'Choose the option that best describes the scene and Which of the following is present in the image ? ', 'correct_answers': ['A Young Boy', 'The Side Of The Road']}

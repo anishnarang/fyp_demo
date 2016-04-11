@@ -1,1 +1,0 @@
-{'answer_choices': ['The Water', 'Football Players', 'Frying Pain', 'A Mustache'], 'question': 'Identify the bodypart present in the image and Which of the following is present in the image ? ', 'correct_answers': ['The Water', 'A Mustache']}

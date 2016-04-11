@@ -1,1 +1,0 @@
-{'answer_choices': ['Two Small Canoes', 'Tricycles', '6 Women', 'A Wall'], 'question': 'Which of the following is present in the image and Choose the option that best describes the scene ? ', 'correct_answers': ['Tricycles', 'A Wall']}

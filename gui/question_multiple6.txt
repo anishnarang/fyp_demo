@@ -1,1 +1,0 @@
-{'answer_choices': ['His Skateboard', 'Exit Door', 'Child', 'Two Televisions'], 'question': 'How many people are present in the image and Which of the following is present in the image ? ', 'correct_answers': ['His Skateboard', 'Child']}

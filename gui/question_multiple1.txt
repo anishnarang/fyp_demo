@@ -1,1 +1,0 @@
-{'answer_choices': ['Prize Ceremony', 'Band Members March', 'Her Four Children', 'Cereal'], 'question': 'Which of the following is present in the image and Choose the option that best describes the scene ? ', 'correct_answers': ['Her Four Children', 'Band Members March']}
