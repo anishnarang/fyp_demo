@@ -50,7 +50,7 @@
           </div>          
           {% endif %}
           <div style="top:25%;left:60%;position:absolute;width:450px;">
-          <form method="POST" action="{{ url_for('main.multiple_fixed_answers') }}" id="myform">
+          <form method="POST" action="{{ url_for('main.multiple_backup_answers') }}" id="myform">
           <h3><u id="header">QUESTION</u></h3>
   		    <p id="question">{{ question }}</p>
   				{% for ans in answer_choices %}

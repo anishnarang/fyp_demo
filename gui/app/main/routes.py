@@ -96,7 +96,7 @@ def make_composite(img1,img2,img3,img4):
 
 def getRandomImages(num):
     images = []
-    l = eval(app.open_resource('static/new_images.txt').read())
+    l = eval(app.open_resource('static/images.txt').read())
     for i in range(num):
         r = random.randint(0,len(l)-1)
         images.append(l[r])
@@ -228,8 +228,8 @@ def index():
 
 correct_answers = []
     
-@main.route("/multiple",methods=['POST'])    
-def multiple_answers():
+@main.route("/multiple_backup",methods=['POST'])    
+def multiple_backup_answers():
     form = MainForm()
     recaptcha = Recaptcha()
     global correct_answers
@@ -393,9 +393,9 @@ def multiple_answers():
             correct_answers = new_choices
 
             print "Correct Answers:",correct_answers
-            return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
+            return render_template("multiple_backup.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
     
-@main.route("/multiple",methods=['GET'])
+@main.route("/multiple_backup",methods=['GET'])
 def multiple():
     global correct_answers
     form = MainForm()
@@ -475,7 +475,7 @@ def multiple():
     print "Correct Answers:",correct_answers
 
     
-    return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
+    return render_template("multiple_backup.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
 
 
 
@@ -840,3 +840,63 @@ def live_multiple():
 
     
     return render_template("multiple_live.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
+
+
+correct_answers = []
+final_images = eval(open("finalimages/final_images.txt").read())
+
+
+@main.route("/multiple",methods=['POST'])   
+def multiple_fixed_answers():
+    form = MainForm()
+    recaptcha = Recaptcha()
+    global correct_answers,final_images
+
+    if form.submit.data:
+        count = 0
+        answers= []
+
+        for ch in dict(request.form).keys():
+            if ch != 'submit':
+                answers.append(ch)
+                # count+=1 #Correct answer
+        
+        if sorted(answers) == sorted(correct_answers) :
+            # Correct answer 
+            key = random.sample(final_images.keys(), 1)
+            name = key[0]
+            question = final_images[name]["question"]
+            answer_choices = final_images[name]["answer_choices"]
+            correct_answers = final_images[name]["correct_answers"]
+            print "Correct Answers:",correct_answers
+            return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,success=True,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
+        else:
+            # Wrong answer
+            form = MainForm()
+            recaptcha = Recaptcha()
+
+            key = random.sample(final_images.keys(), 1)
+
+            name = key[0]
+            question = final_images[name]["question"]
+            answer_choices = final_images[name]["answer_choices"]
+            correct_answers = final_images[name]["correct_answers"]
+
+            print "Correct Answers:",correct_answers
+            return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,wrong=True,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
+    
+@main.route("/multiple",methods=['GET'])
+def multiple_fixed():
+    global correct_answers,final_images
+    form = MainForm()
+    recaptcha = Recaptcha()
+
+    key = random.sample(final_images.keys(), 1)
+
+    name = key[0]
+    question = final_images[name]["question"]
+    answer_choices = final_images[name]["answer_choices"]
+    correct_answers = final_images[name]["correct_answers"]
+
+    print "Correct Answers:",correct_answers
+    return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
