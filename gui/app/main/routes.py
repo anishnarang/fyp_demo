@@ -115,7 +115,7 @@ choices_list = []
 question_list = []
 ans_list = []
 
-@main.route("/single",methods=['POST'])
+@main.route("/single_backup",methods=['POST'])
 def single_answers():
     global choices_list,image_list,question_list,ans_list ,image_list
     # print ans_list
@@ -126,6 +126,7 @@ def single_answers():
                 ans_list = []
                 choices_list = []
                 image_list = getRandomImages(9)
+                print "Image List: ",image_list
                 question_list = []
                 for img in image_list:
                     question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
@@ -152,12 +153,13 @@ def single_answers():
                         new_ans_list.append(ans)
                     ans_list = new_ans_list
                 print "=====================================================================\nAnswers:",str(ans_list)
-                return render_template("index.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
+                return render_template("single_backup.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
         else:
             print "Selected Option:",ch
             ans_list = []
             choices_list = []
             image_list = getRandomImages(9)
+            print "Image List: ",image_list
             question_list = []
             for img in image_list:
                 question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
@@ -184,18 +186,19 @@ def single_answers():
                     new_ans_list.append(ans)
                 ans_list = new_ans_list
             print "Answers:",str(ans_list)
-            return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
+            return render_template("single_backup.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
 
-    return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
+    return render_template("single_backup.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
 
 
-@main.route("/single",methods=['GET'])
+@main.route("/single_backup",methods=['GET'])
 def index():
     global questions_dict,img_annotations
     global choices_list,image_list,question_list,ans_list 
     ans_list = []
     choices_list = []
     image_list = getRandomImages(9)
+    print "Image List: ",image_list
     question_list = []
     for img in image_list:
         question_list.append(questions_dict[img_annotations[img.split(".")[0]][0][0]])
@@ -223,7 +226,7 @@ def index():
         ans_list = new_ans_list
     print "Answers:",str(ans_list)
     
-    return render_template("index.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
+    return render_template("single_backup.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
 
 
 correct_answers = []
@@ -900,3 +903,62 @@ def multiple_fixed():
 
     print "Correct Answers:",correct_answers
     return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
+
+
+@main.route("/single",methods=['POST'])
+def single_ans():
+    global choices_list,image_list,question_list,ans_list ,image_list
+    # print ans_list
+    if request.method=='POST' and request.form['submit']:
+        for ch in dict(request.form).keys():
+            if ch in ans_list:
+                print "Selected Option:",ch
+                image_list = random.sample(final_images_single.keys(), 9)
+
+                question_list = []
+                choices_list = []
+                ans_list = []
+
+                for img in image_list:
+                    question_list.append(final_images_single[img]["Question"])
+                    choices_list.append(";".join(final_images_single[img]["Choices"]))
+                    ans_list.append(final_images_single[img]["Answer"])
+                print "=====================================================================\nAnswers:",str(ans_list)
+                return render_template("single.html",choices_list=choices_list,question_list=question_list,image_list=image_list,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
+        else:
+            image_list = random.sample(final_images_single.keys(), 9)
+
+            question_list = []
+            choices_list = []
+            ans_list = []
+
+            for img in image_list:
+                question_list.append(final_images_single[img]["Question"])
+                choices_list.append(";".join(final_images_single[img]["Choices"]))
+                ans_list.append(final_images_single[img]["Answer"])
+            print "=====================================================================\nAnswers:",str(ans_list)
+            return render_template("single.html",choices_list=choices_list,image_list=image_list,question_list=question_list,alert_message="Captcha question was not answered correctly. Try another one.",alert_type='danger')
+
+    return render_template("single.html",choices_list=choices_list,image_list=image_list,question_list=question_list)
+
+final_images_single = eval(open("finalimagessingle/final_images_single.txt").read())
+
+@main.route("/single",methods=['GET'])
+def single():
+    global questions_dict,img_annotations
+    global choices_list,image_list,question_list,ans_list 
+    
+    image_list = random.sample(final_images_single.keys(), 9)
+
+    question_list = []
+    choices_list = []
+    ans_list = []
+
+    for img in image_list:
+        question_list.append(final_images_single[img]["Question"])
+        choices_list.append(";".join(final_images_single[img]["Choices"]))
+        ans_list.append(final_images_single[img]["Answer"])
+    
+    print "Answers:",str(ans_list)
+    
+    return render_template("single.html",choices_list=choices_list,image_list=image_list,question_list=question_list)

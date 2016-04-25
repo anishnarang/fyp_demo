@@ -121,9 +121,19 @@ def index():
 		ans_list = new_ans_list
 
 	Image.open("app/static/"+str(image_list[0])).show()
+	print "Image: ",str(image_list[0])
 	print "Question: ",str(question_list[0])
 	print "Answer Choices: ",choices_list[0].split(";")
 	print "Correct Answer: ",str(ans_list[0])
+
+	temp = eval(open("final_images_static.txt").read())
+	d = {}
+	d["Question"] = question_list[0]
+	d["Choices"] = choices_list[0].split(";")
+	d["Answer"] = ans_list[0]
+	temp[image_list[0]] = d
+
+	open("final_images_static.txt","w").write(str(temp))
 
 	
 

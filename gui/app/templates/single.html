@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+		<style type="text/css">
+		img:hover
+		{
+			cursor: pointer;
+		}
+
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script type="text/javascript">
+        function refresh()
+        {
+          location.reload();
+        }
+
+        function check()
+        {
+        	arr = document.getElementsByTagName("input");
+        	for(i=0;i<arr.length;i++)
+        	{
+        		if(arr[i].type=='checkbox' && arr[i].checked==true)
+        			alert(arr[i].value);
+        	}
+        }
+
+
+
+        function loadImg(e,q_list,ch_list)
+        {
+            if(document.getElementById("alert"))
+                document.getElementById("alert").style.display = "none";
+
+            id = parseInt(e.target.id);
+
+            document.getElementById("header").innerHTML = "question";
+
+            document.getElementById("submit").style.display = "block";
+
+        	document.getElementById("img").src = e.target.src;
+            document.getElementById("img").style.display = "block";
+
+            id = parseInt(e.target.id);
+            document.getElementById("question").innerHTML = q_list[id-1];
+
+            document.getElementById("op").innerHTML = "";
+            choices =  ch_list[id-1].split(";");
+            label = document.getElementById("op");
+            
+            ul = document.createElement("ul");
+            ul.style.listStyleType = "none";
+            for(i=0;i<choices.length;i++)
+            {
+                li = document.createElement("li");
+                inp = document.createElement("input");
+                inp.type="checkbox";
+                inp.name=choices[i];
+                inp.value=choices[i];
+                inp.id = "check"+i; 
+
+
+                li.appendChild(inp);
+                li.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;"+choices[i];
+
+                ul.innerHTML += "<br>";
+                ul.appendChild(li);
+            }
+            label.appendChild(ul);
+            $('input[type="checkbox"]').on('change', function() {
+                           $('input[type="checkbox"]').not(this).prop('checked', false);
+                        });
+
+        }
+        function loadAllImages(l)
+        {
+
+        	for(i=0;i<=8;i++)
+        	{
+                console.log(l[i]);
+        		document.getElementById(""+(i+1)).src = "http://localhost:5000/static/"+l[i];
+        	}	
+        }
+        </script>
+        <body id="page-top" class="index" onload="loadAllImages({{image_list}})">
+		    <nav class="navbar navbar-default navbar-fixed-top" style="height:10px;">
+		        <a class="navbar-brand" href="#page-top" style="height:40px;top:5px;position:absolute;">Single Image Based CAPTCHA System</a>
+		    </nav>
+	        <header>
+	        <div class="container" style="height:658px;">
+	            <div class="row">
+	                <div class="col-lg-12">
+	                </div>
+	            </div>
+	        </div>
+	    	</header>
+       
+
+        <img id="img" height="410" width="450" style="float:left;top:12%;left:10%;position:absolute;border:5px solid #0B0B3B;display:none;">
+         <table style="float:left;top:78%;left:1%;position:absolute;border-collapse: separate; border-spacing: 15px;">
+        	<h4 style="float:left;top:75%;left:1%;position:absolute;">Select An Image From Below To Answer.</h4>
+            <tr>
+        		<td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="1"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="2"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="3"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="4"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="5"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="6"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="7"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="8"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>single
+                <td><img onclick="loadImg(event,{{question_list}},{{choices_list}})" id="9"  height="110" width="110" style="border:5px solid #0B0B3B;"></td>
+        </table>
+		
+
+        <form method="POST" action="{{ url_for('main.single_ans') }}">
+        <div style="top:17%;left:55%;position:absolute;width:410px;">
+         {% if alert_message %}
+                {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
+                    {% set alert_class = "alert alert-" + alert_type %}
+                <div id="alert" class="{{ alert_class }}" style="top:40%;left:30%;position:fixed;width:380px;">
+                  <!--  <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
+                      &times;
+                   </button> -->
+                  <p> {{alert_message | e }} </p>
+                </div>
+        {% endif %}
+		<h3><u id="header"></u></h3>
+		<p id="question"></p>
+            <div id="op">
+				<label class="checkbox-inline">
+				</label>
+				<br><br>
+            </div>
+
+		<input name="submit" id="submit" style="display:none;" type="submit" class="btn btn-primary" value="SUBMIT" onclick="">
+
+        <a name="recaptcha" href="http://localhost:5000/single" class="btn btn-primary" style="position:absolute;top:410px;left:440px;">
+          <span class="glyphicon glyphicon-refresh"></span> ReCaptcha
+        </a>
+		</div>
+
+        </form>
+{% endblock %}
