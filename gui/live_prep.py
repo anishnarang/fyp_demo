@@ -8,19 +8,20 @@ live_images = []
 live_class_obj = {}
 live_all_tuples = []
 
-for f in os.listdir(path):    
-    copy(path + f, dst_path)
-    c_o_l = eval(raw_input('Enter list of (class,obj) for ' + f + '\n')) #class_obj_list
-    live_all_tuples.extend(c_o_l)
-    live_images.append(f)
-    live_annotations[f.split('.')[0]] = []
-    live_annotations[f.split('.')[0]].extend(c_o_l)
-    for i in c_o_l:
-        if i[0] not in live_class_obj.keys():
-            live_class_obj[i[0]] = []
-            live_class_obj[i[0]].append(i[1])
-        else:
-            live_class_obj[i[0]].append(i[1])
+for f in os.listdir(path):
+    if f.endswith('png') or f.endswith('jpg'):    
+        copy(path + f, dst_path)
+        c_o_l = eval(raw_input('Enter list of (class,obj) for ' + f + '\n')) #class_obj_list
+        live_all_tuples.extend(c_o_l)
+        live_images.append(f)
+        live_annotations[f.split('.')[0]] = []
+        live_annotations[f.split('.')[0]].extend(c_o_l)
+        for i in c_o_l:
+            if i[0] not in live_class_obj.keys():
+                live_class_obj[i[0]] = []
+                live_class_obj[i[0]].append(i[1])
+            else:
+                live_class_obj[i[0]].append(i[1])
 
 
 for k in live_class_obj.keys():

@@ -102,12 +102,18 @@ def getRandomImages(num):
         images.append(l[r])
     return images
 
-def getLiveImages(num):
-    images = []
+def getLiveImages(num, single=True):
+    if single:
+        images = ['live_single.jpg']
+    else:
+        images = ['l1.jpg','l2.jpg','l3.jpg','l4.jpg']
+        
+    '''
     l = eval(app.open_resource('static/live_images.txt').read())
     for i in range(num):
         r = random.randint(0,len(l)-1)
         images.append(l[r])
+    '''
     return images
     
 ans_list = []
@@ -613,7 +619,7 @@ def live_multiple_answers():
         if sorted(answers) == sorted(correct_answers) :
             # Correct answer 
             answer_choices = []
-            image_list = getLiveImages(4)
+            image_list = getLiveImages(4,single=False)
 
 
             selected_images = random.sample(image_list,2)
@@ -691,7 +697,7 @@ def live_multiple_answers():
             recaptcha = Recaptcha()
 
             answer_choices = []
-            image_list = getLiveImages(4)
+            image_list = getLiveImages(4, single=False)
 
 
             selected_images = random.sample(image_list,2)
@@ -769,7 +775,7 @@ def live_multiple():
     recaptcha = Recaptcha()
 
     answer_choices = []
-    image_list = getLiveImages(4)
+    image_list = getLiveImages(4, single=False)
 
 
     selected_images = random.sample(image_list,2)

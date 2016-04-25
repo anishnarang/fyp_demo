@@ -1,1 +1,1 @@
-{}
+{'bodyparts': ['hand'], 'animals': ['dog']}
