@@ -41,7 +41,7 @@ def create_multiple_options(all_obj):
 
 	return res
 
-def make_composite(img1,img2,img3,img4):
+def make_composite(img1,img2,img3,img4,live=True):
 	global count
 	pic1 = Image.open("app/static/"+str(img1))
 	pic2 = Image.open("app/static/"+str(img2))
@@ -68,9 +68,14 @@ def make_composite(img1,img2,img3,img4):
 	op_image.paste(pic4, (w1,h3))	
 
 	count += 1
-	op_image.save("multiple"+str(count)+".jpg")
-	op_image.show()
-	return "multiple"+".jpg"
+	if live:
+		op_image.save("live_multiple"+str(count)+".jpg")
+		op_image.show()
+		return "multiple"+".jpg"
+	else:
+		op_image.save("multiple"+str(count)+".jpg")
+		op_image.show()
+		return "multiple"+str(count)+".jpg"
 
 def getRandomImages(num):
 	images = []

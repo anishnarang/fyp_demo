@@ -64,7 +64,7 @@ def live_create_multiple_options(all_obj):
 
     return res
 
-def make_composite(img1,img2,img3,img4):
+def make_composite(img1,img2,img3,img4,live=False):
     global count
     pic1 = Image.open("app/static/"+str(img1))
     pic2 = Image.open("app/static/"+str(img2))
@@ -91,8 +91,11 @@ def make_composite(img1,img2,img3,img4):
     op_image.paste(pic4, (w1,h3))    
 
     count += 1
-    op_image.save("app/static/multiple"+str(count)+".jpg")
-    return "multiple"+str(count)+".jpg"
+    if live:
+        op_image.save("app/static/live_multiple"+str(count)+".jpg")
+    else:
+        op_image.save("app/static/multiple"+str(count)+".jpg")
+    return "live_multiple"+str(count)+".jpg"
 
 def getRandomImages(num):
     images = []
@@ -636,7 +639,7 @@ def live_multiple_answers():
             cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
             question = os.popen(cmd).read().split("\n")[2]
             print "Question: ",question
-            name = make_composite(*image_list)
+            name = make_composite(*image_list,live=True)
             print "Image: ",name
 
             ## Forming the options
@@ -714,7 +717,7 @@ def live_multiple_answers():
             cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
             question = os.popen(cmd).read().split("\n")[2]
             print "Question: ",question
-            name = make_composite(*image_list)
+            name = make_composite(*image_list,live=True)
             print "Image: ",name
 
             ## Forming the options
@@ -792,7 +795,7 @@ def live_multiple():
     cmd = "python app/main/code/RNN/enc_dec/train_test.py multiple "+img1_chosen[0][0]+ " " + img2_chosen[0][0]
     question = os.popen(cmd).read().split("\n")[2]
     print "Question: ",question
-    name = make_composite(*image_list)
+    name = make_composite(*image_list,live=True)
     print "Image: ",name
 
     ## Forming the options
@@ -877,6 +880,7 @@ def multiple_fixed_answers():
             question = final_images[name]["question"]
             answer_choices = final_images[name]["answer_choices"]
             correct_answers = final_images[name]["correct_answers"]
+            print "Image: ",name
             print "Correct Answers:",correct_answers
             return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form,success=True,alert_message="Captcha question answered correctly. Try another one.",alert_type='info')
         else:
@@ -885,7 +889,8 @@ def multiple_fixed_answers():
             recaptcha = Recaptcha()
 
             key = random.sample(final_images.keys(), 1)
-
+            name = key[0]
+            print "Image: ",name
             name = key[0]
             question = final_images[name]["question"]
             answer_choices = final_images[name]["answer_choices"]
@@ -906,7 +911,7 @@ def multiple_fixed():
     question = final_images[name]["question"]
     answer_choices = final_images[name]["answer_choices"]
     correct_answers = final_images[name]["correct_answers"]
-
+    print "Image: ",name
     print "Correct Answers:",correct_answers
     return render_template("multiple.html",question=question,composite=url_for('static',filename=name),answer_choices=answer_choices,recaptcha=recaptcha,form=form)
 

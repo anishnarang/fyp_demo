@@ -1,1 +1,1 @@
-{'bodyparts': ['hand'], 'animals': ['dog']}
+{'other': ['chair'], 'clothing': ['black shoe'], 'scene': ['classroom'], 'people': ['woman']}

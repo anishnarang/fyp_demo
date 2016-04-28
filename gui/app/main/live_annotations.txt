@@ -1,1 +1,1 @@
-{'l4': [('animals', 'dog'), ('bodyparts', 'hand')], 'l2': [('animals', 'dog'), ('bodyparts', 'hand')], 'l3': [('animals', 'dog'), ('bodyparts', 'hand')], 'live_single': [('animals', 'dog'), ('bodyparts', 'hand')], 'l1': [('animals', 'dog'), ('bodyparts', 'hand')]}
+{'l4': [('people', 'woman')], 'l2': [('scene', 'classroom')], 'l3': [('clothing', 'black shoe')], 'live_single': [('scene', 'classroom')], 'l1': [('other', 'chair')]}
