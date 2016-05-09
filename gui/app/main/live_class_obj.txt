@@ -1,1 +1,1 @@
-{'other': ['chair'], 'clothing': ['black shoe'], 'scene': ['classroom'], 'people': ['woman']}
+{'other': ['chair'], 'clothing': ['shoe'], 'scene': ['classroom', 'office'], 'people': ['woman']}

@@ -1,1 +1,1 @@
-[('people', 'woman'), ('other', 'chair'), ('scene', 'classroom'), ('clothing', 'black shoe')]
+[('clothing', 'shoe'), ('people', 'woman'), ('other', 'chair'), ('scene', 'office'), ('scene', 'classroom')]

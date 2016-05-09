@@ -190,6 +190,8 @@ def live_multiple_answers():
                 new_choices.append(ch)
             answer_choices = new_choices
 
+            shuffle(answer_choices)
+
             # Sanitize answers
             to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
             new_choices = []
@@ -264,6 +266,8 @@ def live_multiple_answers():
                         ch = ch.replace(word,"")
                 new_choices.append(ch)
             answer_choices = new_choices
+
+            shuffle(answer_choices)
 
             # Sanitize answers
             to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
@@ -344,6 +348,8 @@ def live_multiple():
                 ch = ch.replace(word,"")
         new_choices.append(ch)
     answer_choices = new_choices
+
+    shuffle(answer_choices)
 
     # Sanitize answers
     to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]

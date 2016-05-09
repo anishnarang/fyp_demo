@@ -93,7 +93,7 @@
 	    	</header>
        
 
-        <img id="img" onload="loadImg(event,{{question_list}},{{choices_list}})" src="http://localhost:5000/static/{{image_list[0]}}" height="410" width="450" style="float:left;top:12%;left:10%;position:absolute;border:5px solid #0B0B3B;display:block;">
+        <img id="img" onload="loadImg(event,{{question_list}},{{choices_list}})" src="http://localhost:5000/static/{{image_list[0]}}" height="410" width="450" style="float:left;top:20%;left:10%;position:absolute;border:5px solid #0B0B3B;display:block;">
          <!--table style="float:left;top:78%;left:1%;position:absolute;border-collapse: separate; border-spacing: 15px;">
         	<h4 style="float:left;top:75%;left:1%;position:absolute;">Select An Image From Below To Answer.</h4>
             <tr>
@@ -113,7 +113,7 @@
         <div style="top:17%;left:55%;position:absolute;width:410px;">
          {% if alert_message %}
                 {% if not alert_type %} {% set alert_type = 'info' %} {% endif %} 
-                    {% set alert_class = "alert alert-dismissable alert-" + alert_type %}
+                    {% set alert_class = "alert alert-" + alert_type %}
                 <div class="{{ alert_class }}">
                <button type = "button" class = "close" data-dismiss = "alert" aria-hidden = "true">
                   &times;
