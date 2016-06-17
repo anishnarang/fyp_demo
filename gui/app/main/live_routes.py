@@ -382,10 +382,12 @@ def live_single_answers():
                 image_list = getLiveImages(9)
                 question_list = []
                 for img in image_list:
-                    question_list.append(questions_dict[live_img_annotations[img.split(".")[0]][0][0]])
-                    ans_list.append(live_img_annotations[img.split(".")[0]][0][1].title())
-                    choices = [live_img_annotations[img.split(".")[0]][0][1].title()]
-                    choices.extend(create_single_options(live_img_annotations[img.split(".")[0]][0][0],live_img_annotations[img.split(".")[0]]))
+                    ind = random.sample(live_img_annotations[img.split(".")[0]], 1)[0]
+
+                    question_list.append(questions_dict[ind[0]])
+                    ans_list.append(ind[1].title())
+                    choices = [ind[1].title()]
+                    choices.extend(create_single_options(ind[0],live_img_annotations[img.split(".")[0]]))
                     
                     to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
                     new_choices = []
@@ -414,10 +416,12 @@ def live_single_answers():
             image_list = getLiveImages(9)
             question_list = []
             for img in image_list:
-                question_list.append(questions_dict[live_img_annotations[img.split(".")[0]][0][0]])
-                ans_list.append(live_img_annotations[img.split(".")[0]][0][1].title())
-                choices = [live_img_annotations[img.split(".")[0]][0][1].title()]
-                choices.extend(create_single_options(live_img_annotations[img.split(".")[0]][0][0],live_img_annotations[img.split(".")[0]]))
+                ind = random.sample(live_img_annotations[img.split(".")[0]], 1)[0]
+
+                question_list.append(questions_dict[ind[0]])
+                ans_list.append(ind[1].title())
+                choices = [ind[1].title()]
+                choices.extend(create_single_options(ind[0],live_img_annotations[img.split(".")[0]]))
                 
                 to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or "]
                 new_choices = []
@@ -452,10 +456,12 @@ def live_single():
     image_list = getLiveImages(9)
     question_list = []
     for img in image_list:
-        question_list.append(questions_dict[live_img_annotations[img.split(".")[0]][0][0]])
-        ans_list.append(live_img_annotations[img.split(".")[0]][0][1].title())
-        choices = [live_img_annotations[img.split(".")[0]][0][1].title()]
-        choices.extend(create_single_options(live_img_annotations[img.split(".")[0]][0][0],live_img_annotations[img.split(".")[0]]))
+        ind = random.sample(live_img_annotations[img.split(".")[0]], 1)[0]
+
+        question_list.append(questions_dict[ind[0]])
+        ans_list.append(ind[1].title())
+        choices = [ind[1].title()]
+        choices.extend(create_single_options(ind[0],live_img_annotations[img.split(".")[0]]))
         
         to_be_removed = ["","His ","Her ","Hers ","Her's ","Its ","It's ","Other ","Another ","Their ","Or ","Your ","Yours ","These "]
         new_choices = []

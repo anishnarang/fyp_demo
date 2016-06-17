@@ -1,9 +1,3 @@
-'''
-Created on 11-Nov-2015
-Modified: 18 Jan 2015 from gru.py
-@author: Anantharaman Narayana Iyer
-This version implements the GRU
-'''
 import numpy as np
 import pickle
 import copy, pdb

@@ -1,1 +1,1 @@
-{'l4': [('people', 'woman')], 'l2': [('clothing', 'shoe')], 'l3': [('scene', 'classroom')], 'live_single': [('scene', 'office')], 'l1': [('other', 'chair')]}
+{'l4': [('people', 'woman')], 'l2': [('other', 'chair')], 'l3': [('clothing', 'black shoes')], 'live_single': [('people', 'woman'), ('clothing', 'kurta'), ('other', 'laptop'), ('scene', 'CS Lab')], 'l1': [('scene', 'classroom')]}

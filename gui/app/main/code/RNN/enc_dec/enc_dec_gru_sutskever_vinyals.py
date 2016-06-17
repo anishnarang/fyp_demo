@@ -1,8 +1,3 @@
-'''
-Created on 10-Feb-2016
-@author: Anantharaman Narayana Iyer
-This implements the model described in the paper by Sutskever etal but using gru_new module
-'''
 from gru_new import GRU as MyRnn
 import numpy as np
 import pickle
